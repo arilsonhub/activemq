@@ -1,0 +1,23 @@
+version: '3'
+
+services:  
+  apache:
+    build:
+      context: ./
+    container_name: php-queue
+    volumes:
+      - ./html:/var/www/html
+    ports:
+      - "3000:80"
+    links:
+      - activemq
+  activemq:
+    image: webcenter/activemq
+    container_name: activemq_container
+    environment:
+      - ACTIVEMQ_CONFIG_SCHEDULERENABLED:true
+    volumes:
+      - ./data/activemq:/data/activemq
+    ports:
+      - "3001:8161"
+      - "3002:61616"
